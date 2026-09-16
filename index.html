@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P Levels - Members Club Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Mulish:wght@400;700&family=Open+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="frame-picker" aria-label="All 22 Figma frames">
+      <button class="reset-button" data-action="reset" type="button" data-i18n="resetButtonLabel">Reset Prototype</button>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-button" data-action="set-lang" data-lang="en" type="button">EN</button>
+        <button class="lang-button active" data-action="set-lang" data-lang="es" type="button">ES</button>
+      </div>
+      <button class="frame-picker-toggle" data-action="toggle-frame-list" type="button" aria-expanded="false">
+        <span data-i18n="framePickerToggleLabel">Frames 1-20</span>
+        <span class="chevron"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.61228 6.10792C3.98421 5.7418 4.58722 5.7418 4.95915 6.10792L10 11.07L15.0409 6.10792C15.4128 5.7418 16.0158 5.7418 16.3877 6.10792C16.7596 6.47404 16.7596 7.06763 16.3877 7.43375L10.6734 13.0587C10.3015 13.4249 9.69849 13.4249 9.32656 13.0587L3.61228 7.43375C3.24035 7.06763 3.24035 6.47404 3.61228 6.10792Z" fill="currentColor"/></svg></span>
+      </button>
+      <ol class="frame-list" hidden>
+        <li><button data-action="preset-intro-step" data-step="1" data-i18n="frameLabel1">1. Members Club Lobby Intro</button></li>
+        <li><button data-action="preset-intro-step" data-step="2" data-i18n="frameLabel2">2. Members Club Lobby Intro</button></li>
+        <li><button data-goto="rewards-1" data-i18n="frameLabel3">3. Rewards Store</button></li>
+        <li><button data-goto="rewards-2" data-i18n="frameLabel4">4. Rewards Store (filter open)</button></li>
+        <li><button data-action="preset-cart-step" data-step="5" data-i18n="frameLabel5">5. Added to Cart (banner)</button></li>
+        <li><button data-action="preset-cart-step" data-step="6" data-i18n="frameLabel6">6. Added to Cart</button></li>
+        <li><button data-action="preset-cart-step" data-step="7" data-i18n="frameLabel7">7. Added to Cart</button></li>
+        <li><button data-action="preset-cart-step" data-step="8" data-i18n="frameLabel8">8. Added to Cart (banner)</button></li>
+        <li><button data-goto="offers-toast-1" data-i18n="frameLabel9">9. My Offers - Toaster</button></li>
+        <li><button data-goto="offers-toast-2" data-i18n="frameLabel10">10. My Offers - Toaster</button></li>
+        <li><button data-goto="all-offers" data-i18n="frameLabel11">11. All Offers</button></li>
+        <li><button data-goto="offers-toast-3" data-i18n="frameLabel12">12. My Offers - Toaster</button></li>
+        <li><button data-action="preset-cart-step" data-step="13" data-i18n="frameLabel13">13. Shopping Cart (2 items)</button></li>
+        <li><button data-action="preset-cart-step" data-step="14" data-i18n="frameLabel14">14. Shopping Cart (1 item)</button></li>
+        <li><button data-goto="cart-purchased-1" data-i18n="frameLabel15">15. Added to Cart (purchased)</button></li>
+        <li><button data-goto="cart-purchased-2" data-i18n="frameLabel16">16. Added to Cart (purchased)</button></li>
+        <li><button data-goto="mc-lobby-1" data-i18n="frameLabel17">17. Members Club Lobby</button></li>
+        <li><button data-goto="mc-lobby-2" data-i18n="frameLabel18">18. Members Club Lobby (empty)</button></li>
+        <li><button data-goto="vip-home-1" data-i18n="frameLabel19">19. Starcasino VIP Club</button></li>
+        <li><button data-goto="vip-home-3" data-i18n="frameLabel20">20. Starcasino VIP Club (menu)</button></li>
+      </ol>
+    </aside>
+
+    <main class="phone-shell" aria-label="P Levels prototype">
+      <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+      <div class="purchase-modal-overlay" id="purchase-modal-overlay">
+        <div class="purchase-modal">
+          <button class="purchase-modal-close" data-action="close-purchase-modal" aria-label="Close">×</button>
+          <img class="purchase-modal-icon" id="purchase-modal-icon" src="" alt="">
+          <h3 data-i18n="purchaseModalTitle">Purchase complete!</h3>
+          <p id="purchase-modal-body" data-i18n="purchaseModalBody">Enjoy your rewards.</p>
+          <button class="btn-go-play full" data-action="go-play" data-i18n="viewMyOffersButton">Go Play</button>
+        </div>
+      </div>
+      <div class="cart-overlay" id="cart-overlay">
+        <div class="modal-card">
+          <div class="modal-header"><h2 data-i18n="shoppingCartTitle">Shopping Cart</h2><button class="modal-close" data-action="close-cart">×</button></div>
+          <div id="live-cart-items"></div>
+          <div class="cart-total"><span data-i18n="totalCoinsLabel">Total Coins</span><span><img src="assets/icons/coin.svg" alt=""><span id="live-cart-total">0</span></span></div>
+          <button class="btn-primary full" id="live-cart-checkout" data-action="checkout" data-i18n="checkoutButton">Proceed to Checkout</button>
+          <button class="btn-outline full" data-action="close-cart" data-i18n="backToStoreButton">Back to Store</button>
+        </div>
+      </div>
+      <div class="intro-overlay open" id="intro-overlay">
+        <div class="drawer">
+          <div class="drawer-handle"></div>
+          <div class="intro-slide" data-slide="1">
+            <div class="drawer-illustration" aria-hidden="true">🏆</div>
+            <h2 data-i18n="introSlide1Title" data-i18n-html>Enjoy our intro tour of<br>The Members Club</h2>
+            <p data-i18n="introSlide1Body">Our Members Club program is built to cater to every type of player, with a focus on maximizing the total bonuses you earn for every dollar you wager. Climb the ranks.</p>
+          </div>
+          <div class="intro-slide" data-slide="2" hidden>
+            <div class="drawer-illustration" aria-hidden="true">🛍️</div>
+            <h2 data-i18n="introSlide2Title" data-i18n-html>Members Club<br>Rewards Store</h2>
+            <p data-i18n="introSlide2Body">The Rewards Store lets you turn the Coins you earn from playing with real money into exciting rewards. Play, collect Coins, and spend them on rewards you'll love.</p>
+          </div>
+          <div class="drawer-footer">
+            <div class="drawer-dots"><span class="dot active" data-dot="1"></span><span class="dot" data-dot="2"></span></div>
+            <button class="btn-primary" data-action="intro-next" data-i18n="nextButton">Next</button>
+          </div>
+        </div>
+      </div>
+      <div class="terms-overlay" id="terms-overlay">
+        <div class="terms-drawer">
+          <div class="drawer-handle"></div>
+          <h2 data-i18n="termsConditions">Terms &amp; Conditions</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <button class="btn-primary full" data-action="close-terms" data-i18n="closeButton">Close</button>
+        </div>
+      </div>
+      <div class="phone-viewport">
+
+      <!-- ============ 3. Rewards Store ============ -->
+      <section class="screen active" id="screen-rewards-1" data-node="1:47789">
+        <header class="app-header">
+          <div class="header-icon-group">
+            <button class="icon-button" aria-label="Open menu"><img src="assets/icons/menu.svg" alt=""></button>
+            <button class="icon-button" aria-label="Search"><img src="assets/icons/search.svg" alt=""></button>
+          </div>
+          <div class="brand" aria-label="StarCasino"></div>
+          <div class="header-icon-group right">
+            <button class="icon-button" aria-label="Balance"><img src="assets/icons/wallet.svg" alt=""></button>
+            <button class="icon-button" aria-label="Profile"><img src="assets/icons/profile.svg" alt=""></button>
+          </div>
+          <div class="promo-icon"><img src="assets/icons/promo.svg" alt="Promotions"></div>
+          <button class="avatar" aria-label="Member level 1" data-goto="vip-home-3">
+            <img src="assets/images/avatar.jpg" alt="">
+            <span class="avatar-level">★ <b>1</b></span>
+          </button>
+        </header>
+        <section class="club-bar">
+          <h1 data-i18n="membersClub">Members Club</h1>
+          <div class="club-actions">
+            <span class="coin-total"><img src="assets/icons/coin.svg" alt=""><span class="coin-total-value">2177</span></span>
+            <button class="cart-button" aria-label="Shopping cart" data-action="open-cart"><img src="assets/icons/cart.svg" alt=""><span class="cart-badge" hidden>0</span></button>
+          </div>
+        </section>
+        <nav class="tabs" aria-label="Members Club sections">
+          <button data-goto="mc-lobby-1" data-i18n="navMyLevel">My Level</button>
+          <button class="active" data-i18n="navRewardsStore">Rewards Store</button>
+          <button data-action="go-purchases" data-i18n="navMyPurchases">My Purchases</button>
+        </nav>
+        <div class="select-list-wrap" id="live-filter-wrap">
+          <button class="reward-filter" aria-label="Filter rewards" data-action="toggle-filter">
+            <span id="live-filter-label">All Rewards</span><span class="chevron"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.61228 6.10792C3.98421 5.7418 4.58722 5.7418 4.95915 6.10792L10 11.07L15.0409 6.10792C15.4128 5.7418 16.0158 5.7418 16.3877 6.10792C16.7596 6.47404 16.7596 7.06763 16.3877 7.43375L10.6734 13.0587C10.3015 13.4249 9.69849 13.4249 9.32656 13.0587L3.61228 7.43375C3.24035 7.06763 3.24035 6.47404 3.61228 6.10792Z" fill="currentColor"/></svg></span>
+          </button>
+          <ul class="select-list" data-live>
+            <li class="active" data-action="set-filter" data-filter="all" data-i18n="filterAll">All Rewards</li>
+            <li data-action="set-filter" data-filter="level1" data-i18n="lvl1Rewards">Level 1 Rewards</li>
+            <li data-action="set-filter" data-filter="level2" data-i18n="lvl2RewardsShort">Level 2 Rewards</li>
+            <li data-action="set-filter" data-filter="freeSpins" data-i18n="filterFreeSpins">Free Spins</li>
+            <li data-action="set-filter" data-filter="cashback" data-i18n="filterCashback">Cashback</li>
+          </ul>
+        </div>
+        <section class="rewards-section">
+          <h2 data-i18n="lvl1Rewards">Level 1 Rewards</h2>
+          <div class="reward-list" id="level1-rewards-list"></div>
+        </section>
+        <section class="rewards-section locked-section">
+          <h2 data-i18n="lvl2RewardsLocked">Level 2 Rewards (LOCKED)</h2>
+          <div class="reward-list" id="level2-rewards-list"></div>
+        </section>
+      </section>
+
+      <!-- ============ 4. Rewards Store - filter dropdown open ============ -->
+      <section class="screen" id="screen-rewards-2" data-node="1:47816">
+        <header class="app-header">
+          <div class="header-icon-group">
+            <button class="icon-button" aria-label="Open menu"><img src="assets/icons/menu.svg" alt=""></button>
+            <button class="icon-button" aria-label="Search"><img src="assets/icons/search.svg" alt=""></button>
+          </div>
+          <div class="brand" aria-label="StarCasino"></div>
+          <div class="header-icon-group right">
+            <button class="icon-button" aria-label="Balance"><img src="assets/icons/wallet.svg" alt=""></button>
+            <button class="icon-button" aria-label="Profile"><img src="assets/icons/profile.svg" alt=""></button>
+          </div>
+          <div class="promo-icon"><img src="assets/icons/promo.svg" alt="Promotions"></div>
+          <button class="avatar" aria-label="Member level 1">
+            <img src="assets/images/avatar.jpg" alt="">
+            <span class="avatar-level">★ <b>1</b></span>
+          </button>
+        </header>
+        <section class="club-bar">
+          <h1 data-i18n="membersClub">Members Club</h1>
+          <div class="club-actions">
+            <span class="coin-total"><img src="assets/icons/coin.svg" alt="">2177</span>
+            <button class="cart-button" aria-label="Shopping cart" data-action="open-cart"><img src="assets/icons/cart.svg" alt=""></button>
+          </div>
+        </section>
+        <nav class="tabs" aria-label="Members Club sections">
+          <button data-goto="mc-lobby-1" data-i18n="navMyLevel">My Level</button>
+          <button class="active" data-i18n="navRewardsStore">Rewards Store</button>
+          <button data-goto="mc-lobby-2" data-i18n="navMyPurchases">My Purchases</button>
+        </nav>
+        <div class="select-list-wrap">
+          <button class="reward-filter open" aria-label="Filter rewards">
+            <span data-i18n="filterAll">All Rewards</span><span class="chevron up"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.61228 6.10792C3.98421 5.7418 4.58722 5.7418 4.95915 6.10792L10 11.07L15.0409 6.10792C15.4128 5.7418 16.0158 5.7418 16.3877 6.10792C16.7596 6.47404 16.7596 7.06763 16.3877 7.43375L10.6734 13.0587C10.3015 13.4249 9.69849 13.4249 9.32656 13.0587L3.61228 7.43375C3.24035 7.06763 3.24035 6.47404 3.61228 6.10792Z" fill="currentColor"/></svg></span>
+          </button>
+          <ul class="select-list" data-goto="rewards-1">
+            <li class="active" data-i18n="filterAll">All Rewards</li>
+            <li data-i18n="lvl1Rewards">Level 1 Rewards</li>
+            <li data-i18n="lvl2RewardsShort">Level 2 Rewards</li>
+            <li data-i18n="filterFreeSpins">Free Spins</li>
+            <li data-i18n="filterCashback">Cashback</li>
+          </ul>
+        </div>
+        <div class="dim-rest">
+          <section class="rewards-section">
+            <h2 data-i18n="lvl1Rewards">Level 1 Rewards</h2>
+            <div class="reward-list">
+              <article class="reward-card">
+                <img class="game-thumb" src="assets/images/game-reactoonz.jpg" alt="Reactoonz">
+                <div class="reward-copy"><h3 data-i18n="rewardName10fs">10 Free Spins</h3><p>Reactoonz<br>€0.20</p></div>
+                <div class="cost"><span><img src="assets/icons/coin.svg" alt="">150</span></div>
+                <div class="reward-footer"><a href="#terms" data-i18n="termsConditions">Terms &amp; Conditions</a><button class="add-button" data-goto="cart-added-1"><img src="assets/icons/cart.svg" alt=""><span data-i18n="addButton">Add</span></button></div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ============ 9-10, 12. My Offers toaster sequence ============ -->
+      <section class="screen toaster-screen" id="screen-offers-toast-1" data-node="1:48092">
+        <div class="game-screenshot"></div>
+        <div class="toaster-modal winnings" data-goto="offers-toast-2">
+          <button class="modal-close">×</button>
+          <div class="toaster-star">⭐</div>
+          <h3 data-i18n="toasterReceived20Title" data-i18n-html>You received<br>20 Free Bonus Spins</h3>
+          <button class="btn-continue" data-i18n="playButton">Play</button>
+        </div>
+        <nav class="navbar-bottom">
+          <div class="nav-item">⤺<span data-i18n="navExit">Exit</span></div>
+          <div class="nav-item">🔍<span data-i18n="navDiscover">Discover</span></div>
+          <div class="nav-item">🎁<span data-i18n="navMyRewards">My Rewards</span></div>
+          <div class="nav-item">💳<span data-i18n="depositButton">Deposit</span></div>
+          <div class="nav-item">🎮<span data-i18n="navMyGames">My Games</span></div>
+        </nav>
+      </section>
+
+      <section class="screen toaster-screen" id="screen-offers-toast-2" data-node="1:48099">
+        <div class="game-screenshot"></div>
+        <div class="toaster-modal winnings" data-goto="all-offers">
+          <button class="modal-close">×</button>
+          <div class="toaster-star">⭐</div>
+          <h3 data-i18n="toasterReceivedTitle" data-i18n-html>You received<br>10 Free Bonus Spins</h3>
+          <button class="btn-continue" data-i18n="continueButton">Continue</button>
+        </div>
+        <nav class="navbar-bottom">
+          <div class="nav-item">⤺<span data-i18n="navExit">Exit</span></div>
+          <div class="nav-item">🔍<span data-i18n="navDiscover">Discover</span></div>
+          <div class="nav-item">🎁<span data-i18n="navMyRewards">My Rewards</span></div>
+          <div class="nav-item">💳<span data-i18n="depositButton">Deposit</span></div>
+          <div class="nav-item">🎮<span data-i18n="navMyGames">My Games</span></div>
+        </nav>
+      </section>
+
+      <section class="screen toaster-screen" id="screen-offers-toast-3" data-node="1:48106">
+        <div class="game-screenshot"></div>
+        <button class="toaster-closed-pill" data-goto="all-offers" data-i18n="toasterWinningsPill">€18,59 Winnings</button>
+        <nav class="navbar-bottom">
+          <div class="nav-item">⤺<span data-i18n="navExit">Exit</span></div>
+          <div class="nav-item">🔍<span data-i18n="navDiscover">Discover</span></div>
+          <div class="nav-item active" data-goto="all-offers">🎁<span data-i18n="navMyRewards">My Rewards</span></div>
+          <div class="nav-item">💳<span data-i18n="depositButton">Deposit</span></div>
+          <div class="nav-item">🎮<span data-i18n="navMyGames">My Games</span></div>
+        </nav>
+      </section>
+
+      <!-- ============ 11. All Offers ============ -->
+      <section class="screen offers-screen" id="screen-all-offers" data-node="1:48110">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><div class="promo-icon"><img src="assets/icons/promo.svg" alt=""></div><button class="avatar"><img src="assets/images/avatar.jpg" alt=""><span class="avatar-level">★ <b>1</b></span></button></header>
+        <nav class="offers-tabs"><button data-i18n="promotionsTab">Promotions</button><button class="active" data-i18n="bonusesTab">Bonuses</button></nav>
+        <div class="offers-filter-pills"><button data-i18n="filterAllOffers">All</button><button data-i18n="filterInProgress">In Progress</button><button data-i18n="filterAvailable">Available</button><button class="active" data-i18n="filterEnded">Ended</button></div>
+        <h2 class="offers-heading" data-i18n="filterEnded">Ended</h2>
+        <article class="in-progress-card">
+          <div class="in-progress-image">
+            <span class="loyalty-tag" data-i18n="loyaltyBonusTag">Loyalty Bonus</span>
+            <span class="progress-tag ended-tag" data-i18n="endedTagUpper">ENDED</span>
+          </div>
+          <div class="in-progress-body">
+            <h3 data-i18n="freeSpinsBonusTitle">Free Spins Bonus Winnings</h3>
+            <p data-i18n="wageringRequirementText">Winnings must be wagered 35 times on Casino excl. Live Casino</p>
+            <div class="bonus-balance-row"><span data-i18n="bonusBalanceLabel">Bonus Balance</span><span class="info-dot">i</span></div>
+            <p class="bonus-amount">S/35</p>
+            <div class="bonus-progress-bar"><span style="width:100%"></span></div>
+            <p class="bonus-wagered" data-i18n="wageredPercentText">100% wagered</p>
+            <p class="bonus-expiry" data-i18n="bonusExpiryText" data-i18n-html>⏱ Expires in 10 Days<br><b>20 September 2025</b> <span class="info-dot">i</span></p>
+            <button class="btn-primary full" data-i18n="goToCasinoButton">Rewards Store</button>
+            <div class="bonus-links"><a href="#terms" data-i18n="termsConditions">Terms &amp; Conditions</a><a href="#forfeit" data-i18n="forfeitLink">Forfeit</a></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ============ 15/16. Added to Cart - purchased state ============ -->
+      <section class="screen" id="screen-cart-purchased-1" data-node="1:48219">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><div class="promo-icon"><img src="assets/icons/promo.svg" alt=""></div><button class="avatar"><img src="assets/images/avatar.jpg" alt=""><span class="avatar-level">★ <b>1</b></span></button></header>
+        <section class="club-bar"><h1 data-i18n="membersClub">Members Club</h1><div class="club-actions"><span class="coin-total"><img src="assets/icons/coin.svg" alt=""><span class="coin-total-value">900</span></span><button class="cart-button" data-goto="rewards-1"><img src="assets/icons/cart.svg" alt=""></button></div></section>
+        <nav class="tabs"><button data-goto="mc-lobby-1" data-i18n="navMyLevel">My Level</button><button data-goto="rewards-1" data-i18n="navRewardsStore">Rewards Store</button><button class="active" data-action="go-purchases" data-i18n="navMyPurchases">My Purchases</button></nav>
+        <section class="rewards-section"><h2 data-i18n="lvl1RewardsPurchased">Level 1 Rewards PURCHASED</h2><div class="reward-list" id="live-purchased-list"></div></section>
+        <section class="rewards-section"><h2 data-i18n="historyHeading">History</h2><div class="reward-list" id="live-history-list"></div></section>
+        <div class="screen-actions">
+          <button class="btn-outline full" data-goto="rewards-1" data-i18n="backToRewardsStoreButton">Back to Rewards Store</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-cart-purchased-2" data-node="1:48245">
+        <div class="notification-banner floating">✅ Purchase complete! Enjoy your rewards.<button class="banner-close" aria-label="Dismiss">×</button></div>
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><div class="promo-icon"><img src="assets/icons/promo.svg" alt=""></div><button class="avatar"><img src="assets/images/avatar.jpg" alt=""><span class="avatar-level">★ <b>1</b></span></button></header>
+        <section class="club-bar"><h1 data-i18n="membersClub">Members Club</h1><div class="club-actions"><span class="coin-total"><img src="assets/icons/coin.svg" alt="">2027</span><button class="cart-button" data-goto="mc-lobby-1"><img src="assets/icons/cart.svg" alt=""></button></div></section>
+        <nav class="tabs"><button data-goto="mc-lobby-1" data-i18n="navMyLevel">My Level</button><button class="active" data-goto="rewards-1" data-i18n="navRewardsStore">Rewards Store</button><button data-i18n="navMyPurchases">My Purchases</button></nav>
+        <section class="rewards-section"><h2 data-i18n="lvl1RewardsPurchased">Level 1 Rewards PURCHASED</h2><div class="reward-list">
+          <article class="reward-card purchased"><img class="game-thumb" src="assets/images/game-reactoonz.jpg" alt=""><div class="reward-copy"><h3 data-i18n="rewardName10fs">10 Free Spins</h3><p>Reactoonz<br>€0.20</p></div><span class="purchased-tag" data-i18n="purchasedTag">Purchased</span></article>
+        </div></section>
+        <section class="rewards-section"><h2 data-i18n="historyHeading">History</h2><div class="reward-list">
+          <article class="reward-card purchased"><img class="game-thumb" src="assets/images/game-reactoonz.jpg" alt=""><div class="reward-copy"><h3>€1</h3><p>Reactoonz<br>€0.20</p></div><span class="purchased-tag" data-i18n="redeemedTag">Redeemed</span></article>
+        </div></section>
+        <div class="screen-actions">
+          <button class="btn-outline full" data-goto="rewards-1" data-i18n="backToRewardsStoreButton">Back to Rewards Store</button>
+          <button class="btn-outline full" data-goto="offers-toast-1" data-i18n="viewMyOffersButton">View My Offers</button>
+        </div>
+      </section>
+
+      <!-- ============ 17. Members Club Lobby ============ -->
+      <section class="screen" id="screen-mc-lobby-1" data-node="1:48270">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><div class="promo-icon"><img src="assets/icons/promo.svg" alt=""></div><button class="avatar"><img src="assets/images/avatar.jpg" alt=""><span class="avatar-level">★ <b>1</b></span></button></header>
+        <section class="club-bar"><h1 data-i18n="membersClub">Members Club</h1><div class="club-actions"><span class="coin-total"><img src="assets/icons/coin.svg" alt="">2177</span><button class="cart-button" data-action="open-cart"><img src="assets/icons/cart.svg" alt=""></button></div></section>
+        <nav class="tabs"><button class="active" data-i18n="navMyLevel">My Level</button><button data-goto="rewards-1" data-i18n="navRewardsStore">Rewards Store</button><button data-goto="mc-lobby-2" data-i18n="navMyPurchases">My Purchases</button></nav>
+        <section class="member-card">
+          <div class="member-card-header"><h2 data-i18n="memberCardTitle">Member Card</h2><span class="info-dot">i</span></div>
+          <div class="member-card-body">
+            <div class="level-ring"><span class="ring-avatar">🧑</span><span class="ring-name">DragonSlayer99</span><span class="ring-tag" data-i18n="rookieTag">Rookie</span></div>
+            <div class="ring-stat"><span class="ring-fraction">1/6</span><span data-i18n="levelXofY">Level 1 of 6</span></div>
+            <div class="ring-stat"><span class="ring-pct">75%</span><span data-i18n="toL2Label">To L2</span></div>
+          </div>
+          <div class="member-card-icons">
+            <span class="mini-icon active">⚡</span><span class="mini-icon">🛡</span><span class="mini-icon">🏆</span><span class="mini-icon">💎</span><span class="mini-icon muted">⚪</span>
+          </div>
+        </section>
+        <a class="rewards-promo" data-goto="rewards-1">
+          <img src="assets/images/modal-panel-texture.jpg" alt="">
+          <div><h3 data-i18n="navRewardsStore">Rewards Store</h3><p data-i18n="exploreRewardsDesc">Explore all the rewards you can unlock with your Coins</p><span class="link" data-i18n="termsConditions">Terms &amp; Conditions</span></div>
+          <button class="btn-primary" data-i18n="toTheStoreButton">To the Store</button>
+        </a>
+        <section class="progress-details">
+          <h2 data-i18n="progressDetailsTitle">Progress Details</h2>
+          <div class="timeline-item done"><span class="timeline-icon">⚡</span><div><h4 data-i18n="level1RookieTitle">Level 1: The Rookie</h4><p data-i18n="level1RookieDesc">Your journey has begun. Level up from level 1 to 2, from Rookie to Explorer.</p></div></div>
+          <div class="timeline-item done"><span class="timeline-icon">🎟</span><div><h4 data-i18n="timeline5fsTitle">5 Free Spins</h4><p data-i18n="timeline5fsDesc">25% Wohuuu, Free Spins awarded!</p></div></div>
+          <div class="timeline-item done"><span class="timeline-icon">🎟</span><div><h4 data-i18n="rewardName10fs">10 Free Spins</h4><p data-i18n="timeline10fsDesc">50% Half way there! Keep up the great pace!</p></div></div>
+          <div class="timeline-item"><span class="timeline-icon">🎁</span><div><h4 data-i18n="mysteryBoxTitle">Mystery Box</h4><p data-i18n="mysteryBoxDesc">75% Almost yours</p></div></div>
+          <div class="timeline-item"><span class="timeline-icon">🔵</span><div><h4 data-i18n="level2ExplorerTitle">Level 2: Explorer</h4><p data-i18n="level2ExplorerDesc">Reach 100% to level up &amp; get your explorer badge</p></div></div>
+        </section>
+        <section class="level-badges">
+          <h2 data-i18n="levelBadgesTitle">Level Badges</h2>
+          <div class="badge-row"><span class="badge">⚡</span><span class="badge">🛡</span><span class="badge">🏆</span><span class="badge">💎</span><span class="badge muted">⚪</span><span class="badge muted">⚪</span></div>
+        </section>
+        <section class="benefits-grid">
+          <h2 data-i18n="benefitsTitle">Benefits &amp; how to level up</h2>
+          <div class="benefit-card"><span class="benefit-tag" data-i18n="level1Tag">Level 1</span><p class="benefit-num">01</p><p data-i18n="wagerAmount500" data-i18n-html>Wager amount<br><b>500</b> XP</p><small data-i18n="get10BonusSpins">Get 10 Bonus Free Spins</small></div>
+          <div class="benefit-card"><span class="benefit-tag" data-i18n="level2Tag">Level 2</span><p class="benefit-num">02</p><p data-i18n="wagerAmount1000" data-i18n-html>Wager amount<br><b>1000</b> XP</p><small data-i18n="get40BonusFr">Get 40 Bonus Fr...</small></div>
+        </section>
+        <section class="faq-accordion">
+          <h2 data-i18n="faqTitle">FAQ</h2>
+          <details><summary data-i18n="faq1Q">How do I level up in the game?</summary><p data-i18n="faq1A">Wager on eligible games to earn XP and climb the ladder.</p></details>
+          <details><summary data-i18n="faq2Q">What are the different ways to collect coins?</summary><p data-i18n="faq2A">Play real-money games or complete Member Club missions.</p></details>
+          <details><summary data-i18n="faq3Q">How many levels are there in the level system?</summary><p data-i18n="faq3A">There are 6 levels in total.</p></details>
+          <details><summary data-i18n="faq4Q">What rewards do I unlock at each level?</summary><p data-i18n="faq4A">Free Spins, cashback boosts and exclusive mystery boxes.</p></details>
+          <details><summary data-i18n="faq5Q">Do my coins expire if I don't use them?</summary><p data-i18n="faq5A">Coins remain valid as long as your account stays active.</p></details>
+          <details><summary data-i18n="faq6Q">Can I lose my level progress if I'm inactive for a long time?</summary><p data-i18n="faq6A">Extended inactivity may reset progress toward the next level.</p></details>
+          <details><summary data-i18n="faq7Q">How can I check my current level and coin balance?</summary><p data-i18n="faq7A">Your level and coin balance are always shown on this Member Card.</p></details>
+        </section>
+      </section>
+
+      <!-- ============ 18. Members Club Lobby - empty state ============ -->
+      <section class="screen" id="screen-mc-lobby-2" data-node="1:48392">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><div class="promo-icon"><img src="assets/icons/promo.svg" alt=""></div><button class="avatar"><img src="assets/images/avatar.jpg" alt=""><span class="avatar-level">★ <b>1</b></span></button></header>
+        <section class="club-bar"><h1 data-i18n="membersClub">Members Club</h1><div class="club-actions"><span class="coin-total"><img src="assets/icons/coin.svg" alt=""><span class="coin-total-value">2177</span></span><button class="cart-button" data-goto="rewards-1"><img src="assets/icons/cart.svg" alt=""></button></div></section>
+        <nav class="tabs"><button data-goto="mc-lobby-1" data-i18n="navMyLevel">My Level</button><button data-goto="rewards-1" data-i18n="navRewardsStore">Rewards Store</button><button class="active" data-i18n="navMyPurchases">My Purchases</button></nav>
+        <div class="empty-state">
+          <div class="empty-illustration">🛍️</div>
+          <h2 data-i18n="noPurchasesYetTitle">No purchases yet</h2>
+          <p data-i18n="noPurchasesYetDesc">Explore the Rewards Store to find items you can redeem with your coins.</p>
+          <button class="btn-primary" data-goto="rewards-1" data-i18n="goToRewardsStoreButton">Go to Rewards Store</button>
+        </div>
+      </section>
+
+      <!-- ============ 19. Starcasino VIP Club homepage ============ -->
+      <section class="screen vip-home" id="screen-vip-home-1" data-node="1:48413">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button><button class="icon-button"><img src="assets/icons/search.svg" alt=""></button></div><div class="brand"></div><div class="header-icon-group right"><button class="icon-button"><img src="assets/icons/wallet.svg" alt=""></button><button class="icon-button"><img src="assets/icons/profile.svg" alt=""></button></div><button class="avatar" data-goto="vip-home-3"><img src="assets/images/avatar.jpg" alt=""></button></header>
+        <div class="promo-hero">
+          <p class="hero-eyebrow" data-i18n="heroEyebrow">Casino and Sports Betting</p>
+          <h1 data-i18n="heroTitle">Claim 100% Bonus up to €100</h1>
+          <p class="hero-sub" data-i18n="heroSub">Plus 300 Free Spins and €30 in Free Bets</p>
+          <button class="btn-green" data-i18n="createAccountButton">Create Account</button>
+          <div class="payment-badges"><span>VISA</span><span>◐◑</span><span>MiFinity</span><span>LuxonPay</span></div>
+        </div>
+        <nav class="product-tabs">
+          <div class="product-tab">🎰<span data-i18n="navCasino">Casino</span></div>
+          <div class="product-tab">🎥<span data-i18n="navLiveCasino">Live Casino</span></div>
+          <div class="product-tab">💰<span data-i18n="navJackpots">Jackpots</span></div>
+          <div class="product-tab">⚽<span data-i18n="navSportsbook">Sportsbook</span></div>
+          <div class="product-tab">🔴<span data-i18n="navLiveBetting">Live Betting</span></div>
+        </nav>
+        <section class="promotions-row">
+          <div class="promo-row-head"><h2 data-i18n="promotionsTab">Promotions</h2><a href="#" data-i18n="goToPromotionsLink">Go to Promotions ›</a></div>
+          <div class="promo-cards">
+            <article class="promo-card"><img src="assets/images/promo-casino.png" alt=""><span class="promo-tag" data-i18n="promoTagCasino">🎰 Casino</span><p data-i18n="promoCasinoText">Get a 100% Bonus up to €100 + Up to 300 CASH Spins!</p></article>
+            <article class="promo-card"><img src="assets/images/promo-sportsbook.png" alt=""><span class="promo-tag" data-i18n="promoTagSportsbook">⚽ Sportsbook</span><p data-i18n="promoSportsbookText">Claim €100 Bonus + €35 in Free Bets</p></article>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ 20. Starcasino VIP Club - account menu ============ -->
+      <section class="screen vip-home" id="screen-vip-home-3" data-node="1:48444">
+        <header class="app-header"><div class="header-icon-group"><button class="icon-button"><img src="assets/icons/menu.svg" alt=""></button></div><div class="brand vip-logo">starcasinò</div></header>
+        <div class="sidebar-dim" data-goto="vip-home-1"></div>
+        <aside class="account-sidebar">
+          <h3>DragonSlayer99</h3>
+          <p class="balance-line">€ 10550 <span class="chevron"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.61228 6.10792C3.98421 5.7418 4.58722 5.7418 4.95915 6.10792L10 11.07L15.0409 6.10792C15.4128 5.7418 16.0158 5.7418 16.3877 6.10792C16.7596 6.47404 16.7596 7.06763 16.3877 7.43375L10.6734 13.0587C10.3015 13.4249 9.69849 13.4249 9.32656 13.0587L3.61228 7.43375C3.24035 7.06763 3.24035 6.47404 3.61228 6.10792Z" fill="currentColor"/></svg></span></p>
+          <button class="btn-green full" data-i18n="depositButton">Deposit</button>
+          <button class="btn-outline-green full" data-i18n="withdrawButton">Withdraw</button>
+          <ul class="account-menu">
+            <li><span data-i18n="menuPaymentsMethods">Payments Methods</span> <span>⌄</span></li>
+            <li><span data-i18n="bonusesTab">Bonuses</span> <span>⌄</span></li>
+            <li class="expanded"><span data-i18n="starRewardsMenu">StarRewards</span> <span>⌃</span>
+              <ul class="submenu">
+                <li data-action="preset-intro-step" data-step="1">🏅 Starcasino VIP Club</li>
+                <li><span data-i18n="menuHistoryDot">◐ History</span></li>
+                <li><span data-i18n="menuHowItWorks">ⓘ How it Works</span></li>
+                <li><span data-i18n="menuFaq">❓ FAQ</span></li>
+              </ul>
+            </li>
+            <li><span data-i18n="menuMessages">Messages</span> <span>⌄</span></li>
+            <li><span data-i18n="menuHistoryPlain">History</span> <span>⌄</span></li>
+            <li><span data-i18n="menuAccountSettings">Account settings</span> <span>⌄</span></li>
+            <li><span data-i18n="menuResponsibleGaming">Responsible gaming</span> <span>⌄</span></li>
+            <li><span data-i18n="menuCustomerSupport">Customer support</span> <span>⌄</span></li>
+          </ul>
+        </aside>
+      </section>
+
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
