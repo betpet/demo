@@ -5,7 +5,7 @@ body { color: var(--text); font-family: Mulish, sans-serif; }
 button { border: 0; font: inherit; cursor: pointer; }
 .phone-shell { position: relative; width: 412px; height: 800px; margin: 0 auto; overflow: hidden; background: var(--page); border-radius: 40px; box-shadow: 0 0 0 10px #111, 0 20px 40px rgba(0,0,0,.35); }
 .phone-viewport { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; }
-.app-header { position: sticky; top: 0; z-index: 10; height: 60px; display: flex; align-items: flex-start; justify-content: space-between; padding: 8px 12px 0; background: #fff; }
+.app-header { position: sticky; top: 0; z-index: 10; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: #fff; }
 .header-icon-group { display: flex; align-items: center; gap: 24px; min-width: 72px; }
 .header-icon-group.right { justify-content: flex-end; }
 .icon-button, .cart-button { width: 24px; height: 24px; display: grid; place-items: center; padding: 0; background: transparent; }
@@ -13,7 +13,7 @@ button { border: 0; font: inherit; cursor: pointer; }
 .brand { flex: 1; }
 .promo-icon { position: absolute; left: 274px; top: 12px; width: 24px; height: 24px; }
 .promo-icon img { width: 100%; height: 100%; }
-.avatar { position: absolute; right: 12px; top: 6px; width: 36px; height: 36px; padding: 0; overflow: hidden; border: 2px solid #00aa41; border-radius: 50%; background: #6f5d70; }
+.avatar { position: absolute; right: 12px; top: 12px; width: 36px; height: 36px; padding: 0; overflow: hidden; border: 2px solid #00aa41; border-radius: 50%; background: #6f5d70; }
 .avatar > img { width: 115%; height: 115%; object-fit: cover; transform: translate(-7%, -9%); }
 .avatar-level { position: absolute; right: -3px; bottom: -3px; width: 20px; height: 20px; color: #111; background: #ffbd16; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 56%, 79% 92%, 50% 70%, 21% 92%, 32% 56%, 2% 35%, 39% 35%); font: 700 8px/20px Mulish; text-align: center; }
 .avatar-level b { position: absolute; inset: 0; font-size: 8px; line-height: 20px; }
