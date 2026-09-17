@@ -204,6 +204,7 @@ button { border: 0; font: inherit; cursor: pointer; }
 .ring-pct { color: #608df2; }
 .member-card-icons { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
 .mini-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #f5f5f5; }
+.mini-icon img { width: 16px; height: 16px; }
 .mini-icon.c-green { background: #00aa41; }
 .mini-icon.c-blue { background: #608df2; opacity: .38; }
 .mini-icon.c-tan { background: #f5a623; opacity: .38; }
@@ -222,11 +223,14 @@ button { border: 0; font: inherit; cursor: pointer; }
 .progress-details h2, .level-badges h2, .benefits-grid h2, .faq-accordion h2 { margin: 0 0 12px; font-size: 14px; text-transform: uppercase; color: var(--muted); }
 .timeline-item { display: flex; gap: 12px; padding: 10px 0; }
 .timeline-icon { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; border-radius: 50%; background: #f0f0f0; }
+.timeline-icon img { width: 15px; height: 15px; }
+.timeline-item:not(.done) .timeline-icon img { filter: brightness(0) opacity(.45); }
 .timeline-item.done .timeline-icon { background: linear-gradient(135deg, #00aa41 0%, #93c166 100%); }
 .timeline-item h4 { margin: 0 0 2px; font-size: 13px; }
 .timeline-item p { margin: 0; color: var(--muted); font-size: 12px; }
 .badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
 .badge { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; font-size: 18px; }
+.badge img { width: 20px; height: 20px; }
 .badge.c-green { background: #00aa41; }
 .badge.c-blue { background: #608df2; opacity: .38; }
 .badge.c-tan { background: #f5a623; opacity: .38; }
