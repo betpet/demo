@@ -260,7 +260,7 @@ button { border: 0; font: inherit; cursor: pointer; }
 .in-progress-body h3 { margin: 0 0 8px; font-size: 16px; }
 .in-progress-body p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
 .bonus-balance-row { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
-.info-dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; font-style: normal; font-weight: 700; cursor: pointer; }
+.info-dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 14px; font-style: normal; font-weight: 700; cursor: pointer; }
 .bonus-amount { margin: 4px 0 8px; font-size: 24px; font-weight: 700; }
 .bonus-progress-bar { height: 8px; border-radius: 100px; background: #eee; overflow: hidden; }
 .bonus-progress-bar span { display: block; height: 100%; background: #2fae4e; }
