@@ -15,7 +15,7 @@ const TRANSLATIONS = {
     lvl2RewardsLocked: 'Level 2 Rewards (LOCKED)', filterFreeSpins: 'Free Spins', filterCashback: 'Cashback',
     rewardName10fs: '10 Free Spins', rewardName20fs: '20 Free Spins',
     termsConditions: 'Terms & Conditions', addButton: 'Add', inCartButton: 'To Cart', notEnoughCoins: 'Not enough coins',
-    lockedButton: 'Locked', closeButton: 'Close',
+    lockedButton: 'Locked', usedButton: 'Used', closeButton: 'Close',
     shoppingCartTitle: 'Shopping Cart', totalCoinsLabel: 'Total Coins', checkoutButton: 'Proceed to Checkout',
     backToStoreButton: 'Back to Store', lvl1RewardsPurchased: 'Level 1 Rewards PURCHASED', historyHeading: 'History',
     purchasedTag: 'Purchased', redeemedTag: 'Redeemed', backToRewardsStoreButton: 'Back to Rewards Store',
@@ -96,7 +96,7 @@ const TRANSLATIONS = {
     lvl2RewardsLocked: 'Recompensas Nivel 2 (BLOQUEADO)', filterFreeSpins: 'Giros Gratis', filterCashback: 'Reembolso',
     rewardName10fs: '10 Giros Gratis', rewardName20fs: '20 Giros Gratis',
     termsConditions: 'Términos y Condiciones', addButton: 'Agregar', inCartButton: 'En el Carrito', notEnoughCoins: 'Monedas insuficientes',
-    lockedButton: 'Bloqueado', closeButton: 'Cerrar',
+    lockedButton: 'Bloqueado', usedButton: 'Usado', closeButton: 'Cerrar',
     shoppingCartTitle: 'Carrito de Compras', totalCoinsLabel: 'Total de Monedas', checkoutButton: 'Continuar con la Compra',
     backToStoreButton: 'Volver a la Tienda', lvl1RewardsPurchased: 'Recompensas Nivel 1 COMPRADAS', historyHeading: 'Historial',
     purchasedTag: 'Comprado', redeemedTag: 'Canjeado', backToRewardsStoreButton: 'Volver a la Tienda de Recompensas',
@@ -259,18 +259,21 @@ function isLocked(item) {
 }
 
 function rewardCardHtml(item) {
-  const locked = isLocked(item);
+  const used = state.purchased.includes(item.id);
   const inCart = state.cart.includes(item.id);
+  const locked = !used && !inCart && isLocked(item);
   const classes = ['reward-card', item.sale && 'sale-card', locked && 'locked-card'].filter(Boolean).join(' ');
   const saleBadge = item.sale ? '<span class="sale-badge">25%</span>' : '';
   const priceHtml = item.sale
     ? `<div class="cost sale-cost"><span><img src="assets/icons/coin-sale.svg" alt="">${item.cost}</span><del><img src="assets/icons/coin-muted.svg" alt="">${item.saleCost}</del></div>`
     : `<div class="cost"><span><img src="assets/icons/coin.svg" alt="">${item.cost}</span></div>`;
-  const footerHtml = locked
-    ? `<div class="reward-footer"><span>${t('notEnoughCoins')}</span><button class="locked-button">${t('lockedButton')}</button></div>`
+  const footerHtml = used
+    ? `<div class="reward-footer"><span>${t('purchasedTag')}</span><button class="locked-button" disabled>${t('usedButton')}</button></div>`
     : inCart
       ? `<div class="reward-footer"><a href="#terms">${t('termsConditions')}</a><button class="add-button added" data-action="open-cart" aria-label="In cart, view cart"><img src="assets/icons/cart.svg" alt="">${t('inCartButton')}</button></div>`
-      : `<div class="reward-footer"><a href="#terms">${t('termsConditions')}</a><button class="add-button" data-action="add" data-id="${item.id}"><img src="assets/icons/cart.svg" alt="">${t('addButton')}</button></div>`;
+      : locked
+        ? `<div class="reward-footer"><span>${t('notEnoughCoins')}</span><button class="locked-button">${t('lockedButton')}</button></div>`
+        : `<div class="reward-footer"><a href="#terms">${t('termsConditions')}</a><button class="add-button" data-action="add" data-id="${item.id}"><img src="assets/icons/cart.svg" alt="">${t('addButton')}</button></div>`;
   return `<article class="${classes}">
     <img class="game-thumb" src="${item.img}" alt="${item.game}">
     ${saleBadge}
