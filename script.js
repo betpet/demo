@@ -711,6 +711,7 @@ document.addEventListener('click', (event) => {
     else if (action === 'close-cart') closeCartDrawer();
     else if (action === 'preset-cart-step') presetCartStep(Number(actionEl.dataset.step));
     else if (action === 'intro-next') introNext();
+    else if (action === 'open-intro') openIntroOverlay(1);
     else if (action === 'preset-intro-step') presetIntroStep(Number(actionEl.dataset.step));
     else if (action === 'toggle-frame-list') toggleFrameList();
     else if (action === 'open-mobile-view') window.open(location.pathname + '?mobile=1', '_blank');
