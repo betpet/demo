@@ -50,8 +50,7 @@ button { border: 0; font: inherit; cursor: pointer; }
 .add-button, .locked-button { height: 26px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 700; }
 .add-button { min-width: 58px; width: auto; white-space: nowrap; color: #fff; background: var(--teal); }
 .add-button img { width: 16px; height: 16px; filter: brightness(0) invert(1); }
-.add-button.added { width: 26px; padding: 0; background: transparent; }
-.add-button.added img { width: 20px; height: 20px; filter: none; }
+.add-button.added { background: #00aa41; }
 .locked-button { min-width: 56px; color: var(--muted); background: rgba(0,0,0,.05); }
 .sale-badge { position: absolute; left: 44px; top: 4px; transform: translateX(-50%); min-width: 40px; height: 20px; padding: 2px 8px; border-radius: 100px; color: #fff; background: #f9554d; font-size: 12px; font-weight: 700; text-align: center; }
 .locked-card { }
