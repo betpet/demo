@@ -304,10 +304,10 @@ button { border: 0; font: inherit; cursor: pointer; }
 .submenu { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
 .submenu li { font-size: 13px; font-weight: 400; color: var(--text); cursor: pointer; }
 
-@media (max-width: 412px) { .phone-shell { width: 100%; height: 100vh; border-radius: 0; box-shadow: none; } .reward-filter, .rewards-section { width: calc(100% - 32px); } .frame-picker { display: none; } }
+@media (max-width: 480px) { .phone-shell { width: 100%; height: 100vh; border-radius: 0; box-shadow: none; } .reward-filter, .rewards-section { width: calc(100% - 32px); } .frame-picker { display: none; } }
 
-/* Explicit mobile mode (?mobile=1): strip the desktop phone-frame chrome and
-   control panel regardless of the actual viewport width. */
+/* Explicit mobile mode (?mobile=1, or a phone-sized viewport detected on load):
+   strip the desktop phone-frame chrome and control panel regardless of width. */
 html.mobile-view .frame-picker { display: none; }
 html.mobile-view .app-wrapper { padding: 0; gap: 0; min-height: 100dvh; }
 html.mobile-view .phone-shell { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; margin: 0; }

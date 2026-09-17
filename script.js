@@ -1,7 +1,8 @@
 // ===================== Mobile view mode =====================
-// When opened with ?mobile=1, strip the desktop phone-frame chrome and the
-// control panel so the prototype fills the real device screen edge-to-edge.
-if (new URLSearchParams(location.search).get('mobile') === '1') {
+// When opened with ?mobile=1, or when the device's own viewport is phone-sized,
+// strip the desktop phone-frame chrome and the control panel so the prototype
+// fills the real device screen edge-to-edge.
+if (new URLSearchParams(location.search).get('mobile') === '1' || window.innerWidth <= 480) {
   document.documentElement.classList.add('mobile-view');
 }
 
