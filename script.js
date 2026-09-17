@@ -509,7 +509,7 @@ function resetPrototype() {
   activePlay = null;
   purchaseModalItem = null;
   renderLiveScreens();
-  goto('rewards-1');
+  goto('mc-lobby-1');
   openIntroOverlay(1);
 }
 
