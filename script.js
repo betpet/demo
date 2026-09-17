@@ -84,7 +84,6 @@ const TRANSLATIONS = {
     noRewardsMatchFilter: 'No rewards match this filter.',
     addedToCartToast: (name, game) => `✅ ${name} for ${game} have been added to your cart`,
     purchaseCompleteToast: '✅ Purchase complete! Enjoy your rewards.',
-    purchaseModalTitle: 'Purchase complete!', purchaseModalBody: 'Enjoy your rewards.',
     purchaseModalBodyFor: (game) => `Enjoy your rewards for ${game}.`,
     playButton: 'Play',
     youReceivedSpinsTitle: (n) => `You received<br>S/35 from your ${n} Free Bonus Spins`,
@@ -166,7 +165,6 @@ const TRANSLATIONS = {
     noRewardsMatchFilter: 'Ningún artículo coincide con este filtro.',
     addedToCartToast: (name, game) => `✅ ${name} de ${game} se agregó a tu carrito`,
     purchaseCompleteToast: '✅ ¡Compra completada! Disfruta tus recompensas.',
-    purchaseModalTitle: '¡Compra completada!', purchaseModalBody: 'Disfruta tus recompensas.',
     purchaseModalBodyFor: (game) => `Disfruta tus recompensas de ${game}.`,
     playButton: 'Jugar',
     youReceivedSpinsTitle: (n) => `Recibiste<br>S/35 de tus ${n} Giros Bonus Gratis`,
@@ -247,8 +245,6 @@ function loadState() {
 let state = loadState();
 // Free-spins item currently being "played" through the offers-toast-1/2/3 simulation.
 let activePlay = null;
-// Free-spins item shown in the post-checkout purchase modal (for language re-renders).
-let purchaseModalItem = null;
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (err) { /* storage unavailable, continue in-memory */ }
@@ -395,7 +391,6 @@ function renderLiveScreens() {
   renderCartModal();
   renderPurchased();
   updateToasterContent();
-  updatePurchaseModalContent();
 }
 
 // Drives the offers-toast-2 "You received" title with the actual spin count of
@@ -472,8 +467,7 @@ function checkout() {
   renderLiveScreens();
   goto('cart-purchased-1');
   const spinsItem = purchasedIds.map(findItem).find((item) => item && isFreeSpinsItem(item.name));
-  if (spinsItem) openPurchaseModal(spinsItem);
-  else showToast(t('purchaseCompleteToast'));
+  showToast(spinsItem ? '✅ ' + t('purchaseModalBodyFor')(spinsItem.game) : t('purchaseCompleteToast'));
 }
 
 function setFilter(filter) {
@@ -497,17 +491,10 @@ function goToPurchases() {
   goto((state.purchased.length || state.redeemed.length) ? 'cart-purchased-1' : 'mc-lobby-2');
 }
 
-function viewMyOffers() {
-  const firstSpinsId = state.purchased.find((id) => { const item = findItem(id); return item && isFreeSpinsItem(item.name); });
-  if (firstSpinsId) playReward(firstSpinsId);
-  else goto('offers-toast-1');
-}
-
 function resetPrototype() {
   try { localStorage.removeItem(STORAGE_KEY); } catch (err) { /* storage unavailable */ }
   state = { coins: 2177, cart: [], purchased: [], redeemed: [], filter: 'all' };
   activePlay = null;
-  purchaseModalItem = null;
   renderLiveScreens();
   goto('mc-lobby-1');
   openIntroOverlay(1);
@@ -520,26 +507,6 @@ function openTermsDrawer() {
 
 function closeTermsDrawer() {
   const overlay = document.getElementById('terms-overlay');
-  if (overlay) overlay.classList.remove('open');
-}
-
-function openPurchaseModal(item) {
-  purchaseModalItem = item || null;
-  updatePurchaseModalContent();
-  const overlay = document.getElementById('purchase-modal-overlay');
-  if (overlay) overlay.classList.add('open');
-}
-
-function updatePurchaseModalContent() {
-  if (!purchaseModalItem) return;
-  const icon = document.getElementById('purchase-modal-icon');
-  const body = document.getElementById('purchase-modal-body');
-  if (icon) { icon.src = purchaseModalItem.img; icon.alt = purchaseModalItem.game; }
-  if (body) body.textContent = t('purchaseModalBodyFor')(purchaseModalItem.game);
-}
-
-function closePurchaseModal() {
-  const overlay = document.getElementById('purchase-modal-overlay');
   if (overlay) overlay.classList.remove('open');
 }
 
@@ -705,8 +672,6 @@ document.addEventListener('click', (event) => {
     else if (action === 'close-terms') closeTermsDrawer();
     else if (action === 'set-lang') setLanguage(actionEl.dataset.lang);
     else if (action === 'play') playReward(id);
-    else if (action === 'go-play') { closePurchaseModal(); viewMyOffers(); }
-    else if (action === 'close-purchase-modal') closePurchaseModal();
     else if (action === 'open-cart') openCartDrawer();
     else if (action === 'close-cart') closeCartDrawer();
     else if (action === 'preset-cart-step') presetCartStep(Number(actionEl.dataset.step));
@@ -721,12 +686,6 @@ document.addEventListener('click', (event) => {
   const overlay = document.getElementById('terms-overlay');
   if (overlay && event.target === overlay) {
     closeTermsDrawer();
-    return;
-  }
-
-  const purchaseOverlay = document.getElementById('purchase-modal-overlay');
-  if (purchaseOverlay && event.target === purchaseOverlay) {
-    closePurchaseModal();
     return;
   }
 
