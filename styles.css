@@ -186,8 +186,8 @@ button { border: 0; font: inherit; cursor: pointer; }
 /* ===================== Members Club Lobby ===================== */
 .member-card { margin: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .member-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-weight: 700; }
-.member-card-body { display: flex; align-items: center; gap: 16px; }
-.level-ring { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
+.member-card-body { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.level-ring { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .ring-avatar { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #6f5d70; font-size: 22px; }
 .ring-name { font-size: 12px; font-weight: 700; }
 .ring-tag { color: var(--muted); font-size: 11px; }
