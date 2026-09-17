@@ -1,3 +1,10 @@
+// ===================== Mobile view mode =====================
+// When opened with ?mobile=1, strip the desktop phone-frame chrome and the
+// control panel so the prototype fills the real device screen edge-to-edge.
+if (new URLSearchParams(location.search).get('mobile') === '1') {
+  document.documentElement.classList.add('mobile-view');
+}
+
 // ===================== i18n (English / Spanish Latin American) =====================
 const TRANSLATIONS = {
   en: {
@@ -60,6 +67,7 @@ const TRANSLATIONS = {
     menuResponsibleGaming: 'Responsible gaming', menuCustomerSupport: 'Customer support',
     menuHistoryDot: '◐ History', menuHowItWorks: 'ⓘ How it Works', menuFaq: '❓ FAQ',
     resetButtonLabel: 'Reset Prototype',
+    openMobileViewButton: '📱 Open Mobile View',
     framePickerToggleLabel: 'Frames 1-20',
     frameLabel1: '1. Members Club Lobby Intro', frameLabel2: '2. Members Club Lobby Intro',
     frameLabel3: '3. Rewards Store', frameLabel4: '4. Rewards Store (filter open)',
@@ -141,6 +149,7 @@ const TRANSLATIONS = {
     menuResponsibleGaming: 'Juego responsable', menuCustomerSupport: 'Atención al cliente',
     menuHistoryDot: '◐ Historial', menuHowItWorks: 'ⓘ Cómo Funciona', menuFaq: '❓ Preguntas Frecuentes',
     resetButtonLabel: 'Reiniciar Prototipo',
+    openMobileViewButton: '📱 Abrir Vista Móvil',
     framePickerToggleLabel: 'Marcos 1-20',
     frameLabel1: '1. Introducción al Club de Miembros', frameLabel2: '2. Introducción al Club de Miembros',
     frameLabel3: '3. Tienda de Recompensas', frameLabel4: '4. Tienda de Recompensas (filtro abierto)',
@@ -703,6 +712,7 @@ document.addEventListener('click', (event) => {
     else if (action === 'intro-next') introNext();
     else if (action === 'preset-intro-step') presetIntroStep(Number(actionEl.dataset.step));
     else if (action === 'toggle-frame-list') toggleFrameList();
+    else if (action === 'open-mobile-view') window.open(location.pathname + '?mobile=1', '_blank');
     return;
   }
 

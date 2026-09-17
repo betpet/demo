@@ -63,6 +63,8 @@ button { border: 0; font: inherit; cursor: pointer; }
 .frame-picker { position: sticky; top: 20px; width: 260px; flex: 0 0 auto; padding: 20px; border-radius: 12px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
 .reset-button { width: 100%; margin-bottom: 12px; padding: 10px; border: 1.5px solid #f9554d; border-radius: 6px; background: #fff; color: #f9554d; font-size: 12px; font-weight: 700; }
 .reset-button:hover { background: #fff2f1; }
+.mobile-view-button { width: 100%; margin-bottom: 12px; padding: 10px; border: 1.5px solid var(--teal); border-radius: 6px; background: #fff; color: var(--teal); font-size: 12px; font-weight: 700; }
+.mobile-view-button:hover { background: #e6f7f9; }
 .lang-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
 .lang-button { flex: 1; padding: 8px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--muted); font-size: 12px; font-weight: 700; }
 .lang-button.active { border-color: var(--teal); background: #e6f7f9; color: var(--teal); }
@@ -301,4 +303,11 @@ button { border: 0; font: inherit; cursor: pointer; }
 .submenu li { font-size: 13px; font-weight: 400; color: var(--text); cursor: pointer; }
 
 @media (max-width: 412px) { .phone-shell { width: 100%; height: 100vh; border-radius: 0; box-shadow: none; } .reward-filter, .rewards-section { width: calc(100% - 32px); } .frame-picker { display: none; } }
+
+/* Explicit mobile mode (?mobile=1): strip the desktop phone-frame chrome and
+   control panel regardless of the actual viewport width. */
+html.mobile-view .frame-picker { display: none; }
+html.mobile-view .app-wrapper { padding: 0; gap: 0; min-height: 100dvh; }
+html.mobile-view .phone-shell { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; margin: 0; }
+html.mobile-view .reward-filter, html.mobile-view .rewards-section { width: calc(100% - 32px); }
 @media (min-width: 413px) { body { padding-top: 0; } }
