@@ -189,17 +189,31 @@ button { border: 0; font: inherit; cursor: pointer; }
 .member-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-weight: 700; }
 .member-card-body { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .level-ring { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.ring-avatar { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #6f5d70; font-size: 22px; }
+.ring-avatar { position: relative; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #6f5d70; font-size: 22px; }
+.ring-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.ring-avatar .ring-badge { position: absolute; right: -2px; bottom: -2px; width: 18px; height: 18px; border-radius: 50%; background: #ffbd16; color: #111; display: grid; place-items: center; font-size: 10px; border: 2px solid #fff; }
 .ring-name { font-size: 12px; font-weight: 700; }
 .ring-tag { color: var(--muted); font-size: 11px; }
 .ring-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
-.ring-fraction, .ring-pct { font-size: 18px; font-weight: 700; color: var(--teal); }
+.progress-ring { position: relative; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; }
+.progress-ring.green { background: conic-gradient(#00aa41 calc(var(--pct) * 1%), rgba(0,170,65,.15) 0); }
+.progress-ring.blue { background: conic-gradient(#608df2 calc(var(--pct) * 1%), rgba(96,141,242,.15) 0); }
+.progress-ring::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #fff; }
+.ring-fraction, .ring-pct { position: relative; z-index: 1; font-size: 15px; font-weight: 700; }
+.ring-fraction { color: #00aa41; }
+.ring-pct { color: #608df2; }
 .member-card-icons { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
 .mini-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #f5f5f5; }
-.mini-icon.active { background: #fff3cf; }
-.mini-icon.muted { opacity: .4; }
+.mini-icon.c-green { background: #00aa41; }
+.mini-icon.c-blue { background: #608df2; opacity: .38; }
+.mini-icon.c-tan { background: #f5a623; opacity: .38; }
+.mini-icon.c-pink { background: #f9554d; opacity: .38; }
+.mini-icon.c-black { background: rgba(0,0,0,.87); opacity: .38; }
+.mini-icon.c-orange { background: #f60; opacity: .38; }
 .rewards-promo { position: relative; display: flex; align-items: center; gap: 12px; margin: 0 16px 16px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(90deg,#fff, #fff2e0); text-decoration: none; color: inherit; cursor: pointer; }
-.rewards-promo img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
+.rewards-promo .thumb { position: relative; flex: 0 0 auto; }
+.rewards-promo img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; display: block; }
+.rewards-promo .thumb-badge { position: absolute; left: -6px; bottom: -6px; padding: 2px 6px; border: 1px solid var(--line); border-radius: 100px; background: #f9554d; color: #fff; font-size: 11px; font-weight: 700; }
 .rewards-promo h3 { margin: 0; font-size: 14px; }
 .rewards-promo p { margin: 2px 0; color: var(--muted); font-size: 11px; }
 .rewards-promo .link { color: var(--teal); font-size: 10px; }
@@ -208,12 +222,17 @@ button { border: 0; font: inherit; cursor: pointer; }
 .progress-details h2, .level-badges h2, .benefits-grid h2, .faq-accordion h2 { margin: 0 0 12px; font-size: 14px; text-transform: uppercase; color: var(--muted); }
 .timeline-item { display: flex; gap: 12px; padding: 10px 0; }
 .timeline-icon { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; border-radius: 50%; background: #f0f0f0; }
-.timeline-item.done .timeline-icon { background: #d7f3d3; }
+.timeline-item.done .timeline-icon { background: linear-gradient(135deg, #00aa41 0%, #93c166 100%); }
 .timeline-item h4 { margin: 0 0 2px; font-size: 13px; }
 .timeline-item p { margin: 0; color: var(--muted); font-size: 12px; }
 .badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
 .badge { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; font-size: 18px; }
-.badge.muted { opacity: .4; }
+.badge.c-green { background: #00aa41; }
+.badge.c-blue { background: #608df2; opacity: .38; }
+.badge.c-tan { background: #f5a623; opacity: .38; }
+.badge.c-pink { background: #f9554d; opacity: .38; }
+.badge.c-black { background: rgba(0,0,0,.87); opacity: .38; }
+.badge.c-orange { background: #f60; opacity: .38; }
 .benefits-grid { display: flex; flex-direction: column; gap: 12px; }
 .benefits-grid > div.benefit-card { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
 .benefit-tag { padding: 2px 8px; border-radius: 4px; background: #ffbd16; color: #111; font-size: 10px; font-weight: 700; }
